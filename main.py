@@ -1,12 +1,13 @@
 from pytube import YouTube
 import re
 from datetime import date
+import types
 
 # Create the regex needed to grab only letters and numbers from title
 PATTERN = re.compile(r"[0-9A-Za-z]*")
 
 # TODO TYPE THE FILE DIRECTORY IN BETWEEN THE QUOTES HERE WITH THE EXACT PATH YOU WANT THE FILES TO GO TO
-FILE_PATH_TO_SAVE_TO = r""  # ex: "C:\Desktop\Samples"
+FILE_PATH_TO_SAVE_TO = r"Hi"  # ex: "C:\Desktop\Samples"
 
 
 def create_sanitized_title(original_title: str) -> str:
@@ -19,6 +20,10 @@ def create_sanitized_title(original_title: str) -> str:
     split_title = list(map(lambda part: part.lower(), split_title))
     # Return final title. Each word in title joined by an _ and date appended to end
     return ("_").join(split_title) + f"(DOWNLOADED_{current_date}).m4a"
+
+
+def convert_stream_to_binary_data(m4a_stream):
+    return
 
 
 def main():
@@ -47,16 +52,22 @@ def main():
     # Get the highest quality audio stream (mp4 audio)
     highest_quality_audio_stream = yt.streams.get_audio_only()
 
-    # Download the audio to path set above with sanitized file name made from video title
-    try:
-        path_audio_saved_to = highest_quality_audio_stream.download(
-            output_path=FILE_PATH_TO_SAVE_TO, filename=file_safe_title
-        )
-    except Exception as e:
-        print("Something went wrong when downloading.")
-        return
+    # Convert from m4a stream to binary data for a wav file
+    convert_stream_to_binary_data(highest_quality_audio_stream)
 
-    print(f'Sample downloaded successfully!\n\nSAVED TO\n"{path_audio_saved_to}"\n')
+    # Export the binary data to a wav file
+
+    # TODO: UNCOMMENT BELOW THIS
+    # Download the audio to path set above with sanitized file name made from video title
+    # try:
+    #     path_audio_saved_to = highest_quality_audio_stream.download(
+    #         output_path=FILE_PATH_TO_SAVE_TO, filename=file_safe_title
+    #     )
+    # except Exception as e:
+    #     print("Something went wrong when downloading.")
+    #     return
+
+    # print(f'Sample downloaded successfully!\n\nSAVED TO\n"{path_audio_saved_to}"\n')
 
 
 if __name__ == "__main__":
